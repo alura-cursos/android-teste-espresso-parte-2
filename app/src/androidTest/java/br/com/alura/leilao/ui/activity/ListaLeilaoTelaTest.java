@@ -76,7 +76,7 @@ public class ListaLeilaoTelaTest {
         activity.launchActivity(new Intent());
 
         onView(withId(R.id.lista_leilao_recyclerview))
-                .check(matches(apareceLeilaoNaPosicao(6, "Estante", 0.00)));
+                .check(matches(apareceLeilaoNaPosicao(9, "Casa", 0.00)));
     }
 
     @After
