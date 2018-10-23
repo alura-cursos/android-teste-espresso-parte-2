@@ -4,11 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import br.com.alura.leilao.BuildConfig;
 import br.com.alura.leilao.database.contrato.UsuarioContrato;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String NOME_BANCO_DE_DADOS = "leilao-db";
+    private static final String NOME_BANCO_DE_DADOS = BuildConfig.BANCO_DE_DADOS;
     private static final int VERSAO = 1;
 
     private static final String TABELA_USUARIO = "CREATE TABLE " + UsuarioContrato.TABELA_NOME + " ("

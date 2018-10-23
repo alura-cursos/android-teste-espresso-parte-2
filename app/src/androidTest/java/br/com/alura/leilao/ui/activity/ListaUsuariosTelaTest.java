@@ -1,6 +1,8 @@
 package br.com.alura.leilao.ui.activity;
 
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -12,10 +14,13 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import br.com.alura.leilao.BuildConfig;
 import br.com.alura.leilao.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -36,6 +41,11 @@ public class ListaUsuariosTelaTest {
 
     @Rule
     public ActivityTestRule<ListaLeilaoActivity> mActivityTestRule = new ActivityTestRule<>(ListaLeilaoActivity.class);
+
+    @Before
+    public void setup(){
+        limpaBancoDeDadosInterno();
+    }
 
     @Test
     public void listaUsuariosTelaTest() {
@@ -94,8 +104,19 @@ public class ListaUsuariosTelaTest {
                                         0),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("(1) Fran")));
+        textView.check(matches(withText("(1) Alex")));
     }
+
+    @After
+    public void teardown(){
+        limpaBancoDeDadosInterno();
+    }
+
+    private void limpaBancoDeDadosInterno() {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        appContext.deleteDatabase(BuildConfig.BANCO_DE_DADOS);
+    }
+
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
