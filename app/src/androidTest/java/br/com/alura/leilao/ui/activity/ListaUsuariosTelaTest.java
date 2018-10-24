@@ -53,52 +53,26 @@ public class ListaUsuariosTelaTest {
                 isDisplayed()))
                 .perform(click());
 
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.lista_usuario_fab_adiciona),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        floatingActionButton.perform(click());
+        onView(allOf(withId(R.id.lista_usuario_fab_adiciona),
+                isDisplayed()))
+                .perform(click());
 
-        ViewInteraction textInputEditText = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.form_usuario_nome),
-                                0),
-                        0),
-                        isDisplayed()));
-        textInputEditText.perform(click());
+        onView(allOf(withId(R.id.form_usuario_nome),
+                isDisplayed()))
+                .perform(click());
 
-        ViewInteraction textInputEditText2 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.form_usuario_nome),
-                                0),
-                        0),
-                        isDisplayed()));
-        textInputEditText2.perform(replaceText("Alex"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.form_usuario_nome_edittext),
+                isDisplayed()))
+                .perform(replaceText("Alex"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(android.R.id.button1), withText("Adicionar"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.buttonPanel),
-                                        0),
-                                3)));
-        appCompatButton.perform(scrollTo(), click());
+        onView(allOf(withId(android.R.id.button1),
+                withText("Adicionar"),
+                isDisplayed()))
+                .perform(scrollTo(), click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.item_usuario_id_com_nome), withText("(1) Alex"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.lista_usuario_recyclerview),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("(1) Alex")));
+        onView(allOf(withId(R.id.item_usuario_id_com_nome),
+                isDisplayed()))
+                .check(matches(withText("(1) Alex")));
     }
 
     @After
@@ -111,23 +85,4 @@ public class ListaUsuariosTelaTest {
         appContext.deleteDatabase(BuildConfig.BANCO_DE_DADOS);
     }
 
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }
