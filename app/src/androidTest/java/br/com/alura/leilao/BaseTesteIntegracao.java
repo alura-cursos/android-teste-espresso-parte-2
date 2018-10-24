@@ -1,5 +1,8 @@
 package br.com.alura.leilao;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -27,6 +30,11 @@ public abstract class BaseTesteIntegracao {
                 Assert.fail(LEILAO_NAO_FOI_SALVO + leilao.getDescricao());
             }
         }
+    }
+
+    protected void limpaBancoDeDadosInterno() {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        appContext.deleteDatabase(BuildConfig.BANCO_DE_DADOS);
     }
 
 }

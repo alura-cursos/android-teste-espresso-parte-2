@@ -17,8 +17,11 @@ import br.com.alura.leilao.model.Leilao;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
 
@@ -29,6 +32,7 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
     @Before
     public void setup() throws IOException {
         limpaBancoDeDadosDaApi();
+        limpaBancoDeDadosInterno();
     }
 
     @Test
@@ -44,11 +48,19 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .perform(actionOnItemAtPosition(0, click()));
 
 //        Clica no fab da tela de lances do leilão
-//
-//        Verifica se aparece dialog de aviso por não ter usuáro com títilo e mensagem esperada
-//
-//        Clica no botão "Cadastrar Usuário"
-//
+        onView(withId(R.id.lances_leilao_fab_adiciona))
+                .perform(click());
+
+//        Verifica se aparece dialog de aviso por não ter usuáro com título e mensagem esperada
+        onView(withText("Usuários não encontrados"))
+                .check(matches(isDisplayed()));
+        onView(withText("Não existe usuários cadastrados! Cadastre um usuário para propor o lance."))
+                .check(matches(isDisplayed()));
+
+//        Clica no botão "Cadastrar usuário"
+        onView(withText("Cadastrar usuário"))
+                .perform(click());
+
 //        Clica no fab tela de lista de usuários
 //
 //        Clica no EditText e preenche com o nome do usuário
@@ -73,6 +85,7 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
     @After
     public void teardown() throws IOException {
         limpaBancoDeDadosDaApi();
+        limpaBancoDeDadosInterno();
     }
 
 }
