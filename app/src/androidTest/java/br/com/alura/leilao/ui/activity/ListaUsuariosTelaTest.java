@@ -29,35 +29,29 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-@LargeTest
-@RunWith(AndroidJUnit4.class)
 public class ListaUsuariosTelaTest {
 
     @Rule
-    public ActivityTestRule<ListaLeilaoActivity> mActivityTestRule = new ActivityTestRule<>(ListaLeilaoActivity.class);
+    public ActivityTestRule<ListaLeilaoActivity> mainActivity = new ActivityTestRule<>(ListaLeilaoActivity.class);
 
     @Before
-    public void setup(){
+    public void setup() {
         limpaBancoDeDadosInterno();
     }
 
     @Test
-    public void listaUsuariosTelaTest() {
-        ViewInteraction actionMenuItemView = onView(
-                allOf(withId(R.id.lista_leilao_menu_usuarios), withContentDescription("Usuários"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.action_bar),
-                                        1),
-                                0),
-                        isDisplayed()));
-        actionMenuItemView.perform(click());
+    public void deve_AparecerUsuarioNaListaDeUsuarios_QuandoCadastrarUmUsuario() {
+        onView(allOf(withId(R.id.lista_leilao_menu_usuarios),
+                withContentDescription("Usuários"),
+                isDisplayed()))
+                .perform(click());
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.lista_usuario_fab_adiciona),
@@ -108,7 +102,7 @@ public class ListaUsuariosTelaTest {
     }
 
     @After
-    public void teardown(){
+    public void teardown() {
         limpaBancoDeDadosInterno();
     }
 
