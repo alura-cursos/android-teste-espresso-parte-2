@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import br.com.alura.leilao.BaseTesteIntegracao;
 import br.com.alura.leilao.R;
 import br.com.alura.leilao.api.retrofit.client.TesteWebClient;
 import br.com.alura.leilao.model.Leilao;
@@ -23,14 +24,11 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static br.com.alura.leilao.matchers.ViewMatcher.apareceLeilaoNaPosicao;
 
-public class ListaLeilaoTelaTest {
+public class ListaLeilaoTelaTest extends BaseTesteIntegracao {
 
-    private static final String ERRO_FALHA_LIMPEZA_DE_DADOS_DA_API = "Banco de dados não foi limpo";
-    private static final String LEILAO_NAO_FOI_SALVO = "Leilão não foi salvo: ";
     @Rule
     public ActivityTestRule<ListaLeilaoActivity> activity =
             new ActivityTestRule<>(ListaLeilaoActivity.class, true, false);
-    private final TesteWebClient webClient = new TesteWebClient();
 
     @Before
     public void setup() throws IOException {
@@ -86,22 +84,6 @@ public class ListaLeilaoTelaTest {
     @After
     public void tearDown() throws IOException {
         limpaBancoDeDadosDaApi();
-    }
-
-    private void limpaBancoDeDadosDaApi() throws IOException {
-        boolean bancoDeDadosNaoFoiLimpo = !webClient.limpaBancoDeDados();
-        if (bancoDeDadosNaoFoiLimpo) {
-            Assert.fail(ERRO_FALHA_LIMPEZA_DE_DADOS_DA_API);
-        }
-    }
-
-    private void tentaSalvarLeilaoNaApi(Leilao... leiloes) throws IOException {
-        for (Leilao leilao : leiloes){
-            Leilao leilaoSalvo = webClient.salva(leilao);
-            if (leilaoSalvo == null) {
-                Assert.fail(LEILAO_NAO_FOI_SALVO + leilao.getDescricao());
-            }
-        }
     }
 
 }
