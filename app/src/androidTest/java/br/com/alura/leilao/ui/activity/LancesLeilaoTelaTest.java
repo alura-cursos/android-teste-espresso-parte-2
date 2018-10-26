@@ -99,7 +99,7 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check(matches(allOf(withText(formatador.formata(200)),
                         isDisplayed())));
         onView(withId(R.id.lances_leilao_maiores_lances))
-                .check(matches(allOf(withText("200.0 - (1) Alex\n"),
+                .check(matches(allOf(withText(formatador.formata(200) + " - (1) Alex\n"),
                         isDisplayed())));
     }
 
@@ -127,9 +127,34 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check(matches(allOf(withText(formatador.formata(200)),
                         isDisplayed())));
         onView(withId(R.id.lances_leilao_maiores_lances))
-                .check(matches(allOf(withText("400.0 - (1) Alex\n" +
-                                "300.0 - (2) Fran\n" +
-                                "200.0 - (1) Alex\n"),
+                .check(matches(allOf(withText(formatador.formata(400) + " - (1) Alex\n" +
+                                formatador.formata(300) + " - (2) Fran\n" +
+                                formatador.formata(200) + " - (1) Alex\n"),
+                        isDisplayed())));
+    }
+
+    @Test
+    public void deve_atualizarLancesDoLeilao_QuandoReceberUmLanceMuitoAlto() throws IOException {
+        tentaSalvarLeilaoNaApi(new Leilao("Carro"));
+        tentaSalvarUsuariosNoBancoDeDados(
+                new Usuario("Alex"));
+
+        mainActivity.launchActivity(new Intent());
+
+        onView(withId(R.id.lista_leilao_recyclerview))
+                .perform(actionOnItemAtPosition(0, click()));
+
+        propoeNovoLance("2000000000", 1, "Alex");
+
+        FormatadorDeMoeda formatador = new FormatadorDeMoeda();
+        onView(withId(R.id.lances_leilao_maior_lance))
+                .check(matches(allOf(withText(formatador.formata(2000000000)),
+                        isDisplayed())));
+        onView(withId(R.id.lances_leilao_menor_lance))
+                .check(matches(allOf(withText(formatador.formata(2000000000)),
+                        isDisplayed())));
+        onView(withId(R.id.lances_leilao_maiores_lances))
+                .check(matches(allOf(withText(formatador.formata(2000000000) + " - (1) Alex\n"),
                         isDisplayed())));
     }
 

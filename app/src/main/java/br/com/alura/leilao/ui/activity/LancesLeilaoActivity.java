@@ -119,7 +119,7 @@ public class LancesLeilaoActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
         for (Lance lance :
                 leilao.tresMaioresLances()) {
-            sb.append(lance.getValor())
+            sb.append(formatador.formata(lance.getValor()))
                     .append(" - ")
                     .append(lance.getUsuario())
                     .append("\n");
